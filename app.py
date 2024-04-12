@@ -1,6 +1,10 @@
-# Import Python Lib
+# Import Python Lib. You can add if required
+import numpy as np
+import pandas as pd
 
 # Connect Google Colab to Google Drive
+from google.colab import drive
+drive.mount('/content/drive')
 
 # Create python class to read datasets
 columns_to_drop = ['Column_1',... 'Column_N']
@@ -28,7 +32,7 @@ week_folders = ['/content/drive/MyDrive/FC0',
                 '/content/drive/MyDrive/FC2',
                 '/content/drive/MyDrive/FC3',
                 '/content/drive/MyDrive/FC4',
-                '/content/drive/MyDrive/FC0']
+                '/content/drive/MyDrive/FC5']
 
 for week_folder in week_folders:
     week_name = Path(week_folder).name
@@ -42,5 +46,18 @@ globals().update(data_frames)
 
 
 # Create a function to rename all the columns and adjust pressure values
+def replace_and_modify_columns(df, x):
+    # Replace column names 
+    df.rename(columns={'Bee_1': 'Cee_1',
+                       'Bee_2': 'Cee_2',
+                       'Bee_3': 'Cee_3',
+                       'Bee_4': 'Cee_4',
+                       'Bee_5': 'Cee_5'}, inplace=True)
+    # Modify values in Cee_2 and Cee_5
+    df['Cee_2'] += x
+    df['Cee_5'] += x
+    return df
+
+FC1_1 =replace_and_modify_columns(((FC1['File_name'])),1.0101) # Example use assuming x = 1.0101
 
 #
