@@ -1,6 +1,8 @@
 # Import Python Lib. You can add if required
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 # Connect Google Colab to Google Drive
 from google.colab import drive
@@ -58,6 +60,79 @@ def replace_and_modify_columns(df, x):
     df['Cee_5'] += x
     return df
 
-FC1_1 =replace_and_modify_columns(((FC1['File_name'])),1.0101) # Example use assuming x = 1.0101
+FC1_1 =replace_and_modify_columns(((FC1['File_name'])),1.0101) # Example use assuming x = 1.0101 and FC1 is your folder name
 
-#
+# Plot Histogram for various parameters
+S1 = (FC0_1['File_name'])
+S2 = (FC1_1['File_name'])
+S3 = (FC1_2['File_name'])
+S4 = (FC1_3['File_name'])
+num_bins = 20
+plt.figure(figsize=(10, 6))
+sns.histplot(S1.P1_bar, kde=True, bins=num_bins, label='P1(bar)@Week 1', color='blue', alpha=0.7)
+sns.histplot(S2.P1_bar, kde=True, bins=num_bins, label='P1(bar)@Week 2', color='green', alpha=0.7)
+sns.histplot(S3.P1_bar, kde=True, bins=num_bins, label='P1(bar)@Week 3', color='red', alpha=0.7)
+sns.histplot(S4.P1_bar, kde=True, bins=num_bins, label='P1(bar)@Week 4', color='purple', alpha=0.7)
+plt.xlabel('Values (bar)')
+plt.ylabel('Distribution')
+plt.title('Distribution of P1(bar)')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+
+# Create Spider Diagrams
+
+# Means for Healthy condition. Just remem to concartinate all the data in the HC0 folder
+HC0_1_mean = HC0_1.mean()
+
+# Dummy placeholder values for means of P1,...P5
+FC1_1_mean = FC1_1.mean()
+FC1_2_mean = FC1_2.mean()
+FC1_3_mean = FC1_3.mean()
+FC1_4_mean = FC1_4.mean()
+FC1_5_mean = FC1_5.mean()
+
+FC2_1_mean = FC1_1.mean()
+FC2_2_mean = FC1_2.mean()
+FC2_3_mean = FC1_3.mean()
+FC2_4_mean = FC1_4.mean()
+FC2_5_mean = FC1_5.mean()
+
+FC3_1_mean = FC1_1.mean()
+FC3_2_mean = FC1_2.mean()
+FC3_3_mean = FC1_3.mean()
+FC3_4_mean = FC1_4.mean()
+FC3_5_mean = FC1_5.mean()
+
+FC4_1_mean = FC1_1.mean()
+FC4_2_mean = FC1_2.mean()
+FC4_3_mean = FC1_3.mean()
+FC4_4_mean = FC1_4.mean()
+FC4_5_mean = FC1_5.mean()
+
+FC5_1_mean = FC1_1.mean()
+FC5_2_mean = FC1_2.mean()
+FC5_3_mean = FC1_3.mean()
+FC5_4_mean = FC1_4.mean()
+FC5_5_mean = FC1_5.mean()
+
+def spider_check_deviation (x0, x1,x2,x3,x4,x5):
+    A_1 = (abs(x0-x1))/x0
+
+    return 
+
+# Creating the DataFrame
+Algo_data = {
+    'Component': ['Filter', 'Pump', 'Valve', 'Nozzle', 'Pipe'],
+    'SPC_Model': [results_df.SPC_Model_Performance[0], results_df.SPC_Model_Performance[1], results_df.SPC_Model_Performance[2], results_df.SPC_Model_Performance[3], results_df.SPC_Model_Performance[4]],
+    'Ensemble_Classifiers': [best_accuracy_1, best_accuracy_2, best_accuracy_3, best_accuracy_4, best_accuracy_5],
+    'Neural_Network_Model': [DL_best_accuracy_1, DL_best_accuracy_2, DL_best_accuracy_3, DL_best_accuracy_4, DL_best_accuracy_5],
+    'Approximation_Model': [AENS_HDT_Per_1, AENS_HDT_Per_2, AENS_HDT_Per_3, AENS_HDT_Per_4, AENS_HDT_Per_5],
+    'PINN_Model': [HDT_PINN_1, HDT_PINN_2, HDT_PINN_3, HDT_PINN_4, HDT_PINN_5],
+    'Ensemble_HDT_Model': [ENS_HDT_Per_1, ENS_HDT_Per_2, ENS_HDT_Per_3, ENS_HDT_Per_4, ENS_HDT_Per_5]
+}
+
+Algo_data_df = pd.DataFrame(Algo_data)
+print(Algo_data_df)
+
