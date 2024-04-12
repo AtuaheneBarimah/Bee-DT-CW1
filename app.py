@@ -132,7 +132,7 @@ Mean_FC2_1_P1 = FC1['FC1_1']['P1'].mean()
 Err_FC1_1_P1 = ((abs(Mean_HC0_P1-Mean_FC1_1_P1))/(Mean_HC0_P1))*100
 Err_FC2_1_P1 = ((abs(Mean_HC0_P1-Mean_FC1_1_P1))/(Mean_HC0_P1))*100
 
-# Create a Neural Network. See example below
+# Create a Neural Network. See example below and update to suit what you want
 # Generate some random data 
 np.random.seed(0)
 delta_p = np.random.rand(1000, 1)  # Delta Pressure
