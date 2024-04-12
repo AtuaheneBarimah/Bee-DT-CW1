@@ -60,7 +60,7 @@ def replace_and_modify_columns(df, x):
     df['Cee_5'] += x
     return df
 
-FC1_1 =replace_and_modify_columns(((FC1['File_name'])),1.0101) # Example use assuming x = 1.0101 and FC1 is your folder name
+FC1_1 =replace_and_modify_columns(((FC1['File_name'])),1.0101) # Example use assuming x = 1.0101 and FC1 is your folder name. 
 
 # Plot Histogram for various parameters
 S1 = (FC0_1['File_name'])
@@ -87,52 +87,32 @@ plt.show()
 HC0_1_mean = HC0_1.mean()
 
 # Dummy placeholder values for means of P1,...P5
-FC1_1_mean = FC1_1.mean()
-FC1_2_mean = FC1_2.mean()
-FC1_3_mean = FC1_3.mean()
-FC1_4_mean = FC1_4.mean()
-FC1_5_mean = FC1_5.mean()
+FC1 = {'FC1_1': FC1_1, 'FC1_2': FC1_2, 'FC1_3': FC1_3, 'FC1_4': FC1_4, 'FC1_5': FC1_5}
+FC2 = {'FC2_1': FC2_1, 'FC2_2': FC2_2, 'FC2_3': FC2_3, 'FC2_4': FC2_4, 'FC2_5': FC2_5}
+FC3 = {'FC3_1': FC3_1, 'FC3_2': FC3_2, 'FC3_3': FC3_3, 'FC3_4': FC3_4, 'FC3_5': FC3_5}
+FC4 = {'FC4_1': FC4_1, 'FC4_2': FC4_2, 'FC4_3': FC4_3, 'FC4_4': FC4_4, 'FC4_5': FC4_5}
+FC5 = {'FC5_1': FC5_1, 'FC5_2': FC5_2, 'FC5_3': FC5_3, 'FC5_4': FC5_4, 'FC5_5': FC5_5}
 
-FC2_1_mean = FC1_1.mean()
-FC2_2_mean = FC1_2.mean()
-FC2_3_mean = FC1_3.mean()
-FC2_4_mean = FC1_4.mean()
-FC2_5_mean = FC1_5.mean()
+# Initialize dictionaries to store the means
+FC1_means = {}
+FC2_means = {}
+FC3_means = {}
+FC4_means = {}
+FC5_means = {}
 
-FC3_1_mean = FC1_1.mean()
-FC3_2_mean = FC1_2.mean()
-FC3_3_mean = FC1_3.mean()
-FC3_4_mean = FC1_4.mean()
-FC3_5_mean = FC1_5.mean()
-
-FC4_1_mean = FC1_1.mean()
-FC4_2_mean = FC1_2.mean()
-FC4_3_mean = FC1_3.mean()
-FC4_4_mean = FC1_4.mean()
-FC4_5_mean = FC1_5.mean()
-
-FC5_1_mean = FC1_1.mean()
-FC5_2_mean = FC1_2.mean()
-FC5_3_mean = FC1_3.mean()
-FC5_4_mean = FC1_4.mean()
-FC5_5_mean = FC1_5.mean()
-
-def spider_check_deviation (x0, x1,x2,x3,x4,x5):
-    A_1 = (abs(x0-x1))/x0
-
-    return 
-
-# Creating the DataFrame
-Algo_data = {
-    'Component': ['Filter', 'Pump', 'Valve', 'Nozzle', 'Pipe'],
-    'SPC_Model': [results_df.SPC_Model_Performance[0], results_df.SPC_Model_Performance[1], results_df.SPC_Model_Performance[2], results_df.SPC_Model_Performance[3], results_df.SPC_Model_Performance[4]],
-    'Ensemble_Classifiers': [best_accuracy_1, best_accuracy_2, best_accuracy_3, best_accuracy_4, best_accuracy_5],
-    'Neural_Network_Model': [DL_best_accuracy_1, DL_best_accuracy_2, DL_best_accuracy_3, DL_best_accuracy_4, DL_best_accuracy_5],
-    'Approximation_Model': [AENS_HDT_Per_1, AENS_HDT_Per_2, AENS_HDT_Per_3, AENS_HDT_Per_4, AENS_HDT_Per_5],
-    'PINN_Model': [HDT_PINN_1, HDT_PINN_2, HDT_PINN_3, HDT_PINN_4, HDT_PINN_5],
-    'Ensemble_HDT_Model': [ENS_HDT_Per_1, ENS_HDT_Per_2, ENS_HDT_Per_3, ENS_HDT_Per_4, ENS_HDT_Per_5]
-}
-
-Algo_data_df = pd.DataFrame(Algo_data)
-print(Algo_data_df)
+# Calculate means for each category
+for category_dict in [FC1, FC2, FC3, FC4, FC5]:
+    category_means = {}
+    for key, value in category_dict.items():
+        category_means[key] = value.mean()
+    if category_dict is FC1:
+        FC1_means = category_means
+    elif category_dict is FC2:
+        FC2_means = category_means
+    elif category_dict is FC3:
+        FC3_means = category_means
+    elif category_dict is FC4:
+        FC4_means = category_means
+    elif category_dict is FC5:
+        FC5_means = category_means
 
