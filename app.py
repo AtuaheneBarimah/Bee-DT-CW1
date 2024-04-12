@@ -1,8 +1,12 @@
 # Import Python Lib. You can add if required
+!pip install --upgrade keras scikit-learn
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+from sklearn.model_selection import train_test_split
+from keras.models import Model
+from keras.layers import Input, Dense, concatenate
 
 # Connect Google Colab to Google Drive
 from google.colab import drive
@@ -83,36 +87,59 @@ plt.show()
 
 # Create Spider Diagrams
 
-# Means for Healthy condition. Just remem to concartinate all the data in the HC0 folder
-HC0_1_mean = HC0_1.mean()
+# Means for Healthy condition. Just remember to concartinate all the data in the HC0 folder
+#Healty
+Mean_HC0_P1 = (HC0.P1).mean()
 
-# Dummy placeholder values for means of P1,...P5
+#Faulty Condition
 FC1 = {'FC1_1': FC1_1, 'FC1_2': FC1_2, 'FC1_3': FC1_3, 'FC1_4': FC1_4, 'FC1_5': FC1_5}
 FC2 = {'FC2_1': FC2_1, 'FC2_2': FC2_2, 'FC2_3': FC2_3, 'FC2_4': FC2_4, 'FC2_5': FC2_5}
 FC3 = {'FC3_1': FC3_1, 'FC3_2': FC3_2, 'FC3_3': FC3_3, 'FC3_4': FC3_4, 'FC3_5': FC3_5}
 FC4 = {'FC4_1': FC4_1, 'FC4_2': FC4_2, 'FC4_3': FC4_3, 'FC4_4': FC4_4, 'FC4_5': FC4_5}
 FC5 = {'FC5_1': FC5_1, 'FC5_2': FC5_2, 'FC5_3': FC5_3, 'FC5_4': FC5_4, 'FC5_5': FC5_5}
 
-# Initialize dictionaries to store the means
-FC1_means = {}
-FC2_means = {}
-FC3_means = {}
-FC4_means = {}
-FC5_means = {}
+# Calculate the means 
+Mean_FC1_1_P1 = FC1['FC1_1']['P1'].mean()
+Mean_FC2_1_P1 = FC1['FC1_1']['P1'].mean()
 
-# Calculate means for each category
-for category_dict in [FC1, FC2, FC3, FC4, FC5]:
-    category_means = {}
-    for key, value in category_dict.items():
-        category_means[key] = value.mean()
-    if category_dict is FC1:
-        FC1_means = category_means
-    elif category_dict is FC2:
-        FC2_means = category_means
-    elif category_dict is FC3:
-        FC3_means = category_means
-    elif category_dict is FC4:
-        FC4_means = category_means
-    elif category_dict is FC5:
-        FC5_means = category_means
+# Calculate the error using healthy condition as reference
+Err_FC1_1_P1 = ((abs(Mean_HC0_P1-Mean_FC1_1_P1))/(Mean_HC0_P1))*100
+Err_FC2_1_P1 = ((abs(Mean_HC0_P1-Mean_FC1_1_P1))/(Mean_HC0_P1))*100
+
+# Create a Neural Network 
+# Generate some random data 
+np.random.seed(0)
+delta_p = np.random.rand(1000, 1)  # Delta Pressure
+RPM = np.random.randint(0, 100, (1000, 1))  # Revolutions Per Minute
+flow_rate = np.random.rand(1000, 1)  # Flow Rate
+
+# Split the data into training and testing sets
+delta_p_train, delta_p_test, RPM_train, RPM_test, flow_rate_train, flow_rate_test = train_test_split(delta_p, RPM, flow_rate, test_size=0.2, random_state=42)
+
+# Define the architecture of the neural network
+delta_p_input = Input(shape=(1,), name='delta_p_input')
+RPM_input = Input(shape=(1,), name='RPM_input')
+
+# Combine the inputs
+combined = concatenate([delta_p_input, RPM_input])
+
+# Hidden layers
+hidden1 = Dense(32, activation='relu')(combined)
+hidden2 = Dense(16, activation='relu')(hidden1)
+
+# Output layer
+output = Dense(1, activation='linear')(hidden2)
+
+# Create the model
+model = Model(inputs=[delta_p_input, RPM_input], outputs=output)
+
+# Compile the model
+model.compile(optimizer='adam', loss='mean_squared_error', metrics=[mean_absolute_error, mean_absolute_percentage_error,accuracy])
+
+# Train the model
+model.fit([delta_p_train, RPM_train], flow_rate_train, epochs=50, batch_size=32, validation_split=0.2)
+
+# Evaluate the model on the test set
+loss, mae, mape, accuracy = model.evaluate([delta_p_test, RPM_test], flow_rate_test)
+print(f'Test loss: {loss}, MAE: {mae}, MAPE: {mape}', Accuracy: {accuracy})
 
