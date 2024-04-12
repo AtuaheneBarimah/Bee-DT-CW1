@@ -1,5 +1,7 @@
 # Import Python Lib. You can add if required
 !pip install --upgrade keras scikit-learn
+!pip install cairosvg
+import cairosvg
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -51,7 +53,7 @@ for week_folder in week_folders:
 globals().update(data_frames)
 
 
-# Create a function to rename all the columns and adjust pressure values
+# Create a function to rename all the columns and adjust pressure values. See example below
 def replace_and_modify_columns(df, x):
     # Replace column names 
     df.rename(columns={'Bee_1': 'Cee_1',
@@ -86,6 +88,28 @@ plt.show()
 
 
 # Create Spider Diagrams
+Algo_data = {
+    'Component': ['Filter', 'Pump', 'Valve', 'Nozzle', 'Pipe'],
+    'SPC_Model': [results_df.SPC_Model_Performance[0], results_df.SPC_Model_Performance[1], results_df.SPC_Model_Performance[2], results_df.SPC_Model_Performance[3], results_df.SPC_Model_Performance[4]],
+    'Ensemble_Classifiers': [best_accuracy_1, best_accuracy_2, best_accuracy_3, best_accuracy_4, best_accuracy_5],
+    'Neural_Network_Model': [DL_best_accuracy_1, DL_best_accuracy_2, DL_best_accuracy_3, DL_best_accuracy_4, DL_best_accuracy_5],
+    'Approximation_Model': [AENS_HDT_Per_1, AENS_HDT_Per_2, AENS_HDT_Per_3, AENS_HDT_Per_4, AENS_HDT_Per_5],
+    'PINN_Model': [HDT_PINN_1, HDT_PINN_2, HDT_PINN_3, HDT_PINN_4, HDT_PINN_5],
+    'Ensemble_HDT_Model': [ENS_HDT_Per_1, ENS_HDT_Per_2, ENS_HDT_Per_3, ENS_HDT_Per_4, ENS_HDT_Per_5]
+}
+Algo_data_df = pd.DataFrame(Algo_data)
+Algo_data_df
+
+radar_chart =pygal.Radar(width = 350, height = 250)
+radar_chart.title = 'Compare Performance of FDI Model in MCD scenarios'
+radar_chart.x_labels =['Filter', 'Pump', 'Valve', 'Nozzle', 'Pipe']
+radar_chart.add('SPC', [Algo_data_df.SPC_Model[0],Algo_data_df.SPC_Model[1],Algo_data_df.SPC_Model[2],Algo_data_df.SPC_Model[3],Algo_data_df.SPC_Model[4]])
+radar_chart.add('Ensemble', [Algo_data_df.Ensemble_Classifiers[0],Algo_data_df.Ensemble_Classifiers[1],Algo_data_df.Ensemble_Classifiers[2],Algo_data_df.Ensemble_Classifiers[3],Algo_data_df.Ensemble_Classifiers[4]])
+radar_chart.add('Neural_Network_Model', [Algo_data_df.Neural_Network_Model[0],Algo_data_df.Neural_Network_Model[1],Algo_data_df.Neural_Network_Model[2],Algo_data_df.Neural_Network_Model[3],Algo_data_df.Neural_Network_Model[4]])
+radar_chart.add('Approx_Model', [Algo_data_df.Approximation_Model[0],Algo_data_df.Approximation_Model[1],Algo_data_df.Approximation_Model[2],Algo_data_df.Approximation_Model[3],Algo_data_df.Approximation_Model[4]]),
+radar_chart.add('PINN_Model', [Algo_data_df.PINN_Model[0],Algo_data_df.PINN_Model[1],Algo_data_df.PINN_Model[2],Algo_data_df.PINN_Model[3],Algo_data_df.PINN_Model[4]]),
+radar_chart.add('Ensemble_HDT_Model', [Algo_data_df.Ensemble_HDT_Model[0],Algo_data_df.Ensemble_HDT_Model[1],Algo_data_df.Ensemble_HDT_Model[2],Algo_data_df.Ensemble_HDT_Model[3],Algo_data_df.Ensemble_HDT_Model[4]])
+radar_chart
 
 # Means for Healthy condition. Just remember to concartinate all the data in the HC0 folder
 #Healty
