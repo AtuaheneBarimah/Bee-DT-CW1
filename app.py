@@ -166,6 +166,6 @@ model.compile(optimizer='adam', loss='mean_squared_error', metrics=[mean_absolut
 model.fit([delta_p_train, RPM_train], flow_rate_train, epochs=50, batch_size=32, validation_split=0.2)
 
 # Evaluate the model on the test set
-loss, mae, mape, accuracy = model.evaluate([delta_p_test, RPM_test], flow_rate_test)
+loss, mae, mape = model.evaluate([delta_p_test, RPM_test], flow_rate_test)
 print(f'Test loss: {loss}, MAE: {mae}, MAPE: {mape}')
 
