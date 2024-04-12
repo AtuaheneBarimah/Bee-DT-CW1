@@ -6,9 +6,11 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from sklearn.model_selection import train_test_split
 from keras.models import Model
+from sklearn.model_selection import train_test_split
 from keras.layers import Input, Dense, concatenate
+from keras.metrics import mean_absolute_error, mean_absolute_percentage_error
+
 
 # Connect Google Colab to Google Drive
 from google.colab import drive
@@ -130,7 +132,7 @@ Mean_FC2_1_P1 = FC1['FC1_1']['P1'].mean()
 Err_FC1_1_P1 = ((abs(Mean_HC0_P1-Mean_FC1_1_P1))/(Mean_HC0_P1))*100
 Err_FC2_1_P1 = ((abs(Mean_HC0_P1-Mean_FC1_1_P1))/(Mean_HC0_P1))*100
 
-# Create a Neural Network 
+# Create a Neural Network. See example below
 # Generate some random data 
 np.random.seed(0)
 delta_p = np.random.rand(1000, 1)  # Delta Pressure
@@ -158,12 +160,12 @@ output = Dense(1, activation='linear')(hidden2)
 model = Model(inputs=[delta_p_input, RPM_input], outputs=output)
 
 # Compile the model
-model.compile(optimizer='adam', loss='mean_squared_error', metrics=[mean_absolute_error, mean_absolute_percentage_error,accuracy])
+model.compile(optimizer='adam', loss='mean_squared_error', metrics=[mean_absolute_error, mean_absolute_percentage_error])
 
 # Train the model
 model.fit([delta_p_train, RPM_train], flow_rate_train, epochs=50, batch_size=32, validation_split=0.2)
 
 # Evaluate the model on the test set
 loss, mae, mape, accuracy = model.evaluate([delta_p_test, RPM_test], flow_rate_test)
-print(f'Test loss: {loss}, MAE: {mae}, MAPE: {mape}', Accuracy: {accuracy})
+print(f'Test loss: {loss}, MAE: {mae}, MAPE: {mape}')
 
