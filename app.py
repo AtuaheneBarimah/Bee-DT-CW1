@@ -2,6 +2,8 @@
 !pip install --upgrade keras scikit-learn
 !pip install cairosvg
 import cairosvg
+import os
+from pathlib import Path
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -17,7 +19,7 @@ from google.colab import drive
 drive.mount('/content/drive')
 
 # Create python class to read datasets
-columns_to_drop = ['Column_1',... 'Column_N']
+columns_to_drop = ['X_Value',	'Untitled',	'Comment']
 
 class KeyDataFrame(pd.DataFrame):
     def __repr__(self):
@@ -27,7 +29,7 @@ def process_lvm_file(file_path, week_name):
     file_name = os.path.splitext(os.path.basename(file_path))[0]
     variable_name = '_'.join(file_name.split('_')[:2])
     df = pd.read_csv(file_path, delimiter='\t', skiprows=23, header=None)
-    column_names = ['Column_1',... 'Column_N'] #Columns to keep
+    column_names = ['X_Value','Pre-Filter Pressure Transducer',	'Post Filter Pressure Transducer',	'Pre Valve Pressure Transducer','Post Valve Pressure Transducer','Main Tank Flow Meter','Sump Tank Flow Meter',	'End Pressure','Untitled','Untitled 1',	'Untitled 2',	'Untitled 3',	'Untitled 4',	'Untitled 5','Comment'] #Columns to keep using the drop columns feature
     df.columns = column_names
     df = df.drop(columns=columns_to_drop)
     data_frames[week_name][variable_name] = KeyDataFrame(df)
