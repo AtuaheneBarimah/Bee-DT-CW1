@@ -63,7 +63,13 @@ def replace_and_modify_columns(df, x):
                             'Post Filter Pressure Transducer': 'P2_bar',
                             'Pre Valve Pressure Transducer': 'P3_bar',
                             'Post Valve Pressure Transducer': 'P4_bar',
+                            'Untitled': 'RPM',
                             'Main Tank Flow Meter': 'F1',
+                            'Untitled 1': 'DPV_1',
+                            'Untitled 2': 'DPV_2',
+                            'Untitled 3': 'DPV_3',
+                            'Untitled 4': 'DPV_4',
+                            'Untitled 5': 'DPV_5',
                             'Sump Tank Flow Meter': 'F2',
                             'End Pressure': 'P5_bar'})
     
