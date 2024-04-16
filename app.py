@@ -37,12 +37,12 @@ class DataFrameDict(dict):
         self[key] = {}
         return self[key]
 data_frames = DataFrameDict()
-week_folders = ['/content/drive/MyDrive/FC0',
-                '/content/drive/MyDrive/FC1',
-                '/content/drive/MyDrive/FC2',
-                '/content/drive/MyDrive/FC3',
-                '/content/drive/MyDrive/FC4',
-                '/content/drive/MyDrive/FC5']
+week_folders = ['/content/drive/MyDrive/CW1/FC0',
+                '/content/drive/MyDrive/CW1/FC1',
+                '/content/drive/MyDrive/CW1/FC2',
+                '/content/drive/MyDrive/CW1/FC3',
+                '/content/drive/MyDrive/CW1/FC4',
+                '/content/drive/MyDrive/CW1/FC5']
 
 for week_folder in week_folders:
     week_name = Path(week_folder).name
