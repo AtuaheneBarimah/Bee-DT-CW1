@@ -57,20 +57,29 @@ for week_folder in week_folders:
 globals().update(data_frames)
 
 
-# Create a function to rename all the columns and adjust pressure values. See example below
 def replace_and_modify_columns(df, x):
     # Replace column names 
-    df.rename(columns={'Bee_1': 'Cee_1',
-                       'Bee_2': 'Cee_2',
-                       'Bee_3': 'Cee_3',
-                       'Bee_4': 'Cee_4',
-                       'Bee_5': 'Cee_5'}, inplace=True)
+    df = df.rename(columns={'Pre-Filter Pressure Transducer': 'P1_bar',
+                            'Post Filter Pressure Transducer': 'P2_bar',
+                            'Pre Valve Pressure Transducer': 'P3_bar',
+                            'Post Valve Pressure Transducer': 'P4_bar',
+                            'Main Tank Flow Meter': 'F1',
+                            'Sump Tank Flow Meter': 'F2',
+                            'End Pressure': 'P5_bar'})
+    
+    # Convert columns to numeric type
+    numeric_columns = ['P2_bar', 'P3_bar']
+    df[numeric_columns] = df[numeric_columns].apply(pd.to_numeric, errors='coerce')
+    
     # Modify values in Cee_2 and Cee_5
-    df['Cee_2'] += x
-    df['Cee_5'] += x
+    df['P2_bar'] += x
+    df['P3_bar'] += x
     return df
 
-FC1_1 =replace_and_modify_columns(((FC1['File_name'])),1.0101) # Example use assuming x = 1.0101 and FC1 is your folder name. 
+HS_0 =  (pd.concat([(FC0['FC0_100']),(FC0['FC0_101'])]))[1:]
+HS_1 =  (pd.concat([(FC1['FC1_100']),(FC1['FC1_101'])]))[1:]
+
+FC1_1 =replace_and_modify_columns((HS_0),1.0101) # Example use assuming x = 1.0101 and HS_0 is your Data 
 
 # Plot Histogram for various parameters
 S1 = (FC0_1['File_name'])
