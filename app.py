@@ -58,7 +58,6 @@ globals().update(data_frames)
 
 
 def replace_and_modify_columns(df, x):
-    # Replace column names 
     df = df.rename(columns={'Pre-Filter Pressure Transducer': 'P1_bar',
                             'Post Filter Pressure Transducer': 'P2_bar',
                             'Pre Valve Pressure Transducer': 'P3_bar',
@@ -72,12 +71,10 @@ def replace_and_modify_columns(df, x):
                             'Untitled 5': 'DPV_5',
                             'Sump Tank Flow Meter': 'F2',
                             'End Pressure': 'P5_bar'})
-    
-    # Convert columns to numeric type
+
     numeric_columns = ['P2_bar', 'P3_bar']
     df[numeric_columns] = df[numeric_columns].apply(pd.to_numeric, errors='coerce')
-    
-    # Modify values in Cee_2 and Cee_5
+
     df['P2_bar'] += x
     df['P3_bar'] += x
     return df
