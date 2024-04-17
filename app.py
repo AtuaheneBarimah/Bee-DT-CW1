@@ -72,11 +72,33 @@ def replace_and_modify_columns(df, x):
                             'Sump Tank Flow Meter': 'F2',
                             'End Pressure': 'P5_bar'})
 
-    numeric_columns = ['P2_bar', 'P3_bar']
+    numeric_columns = ['P3_bar', 'P4_bar', 'P5_bar']
     df[numeric_columns] = df[numeric_columns].apply(pd.to_numeric, errors='coerce')
 
-    df['P2_bar'] += x
+    df['P4_bar'] += x
     df['P3_bar'] += x
+    df['P5_bar'] += x
+    return dfdef replace_and_modify_columns(df, x):
+    df = df.rename(columns={'Pre-Filter Pressure Transducer': 'P1_bar',
+                            'Post Filter Pressure Transducer': 'P2_bar',
+                            'Pre Valve Pressure Transducer': 'P3_bar',
+                            'Post Valve Pressure Transducer': 'P4_bar',
+                            'Untitled': 'RPM',
+                            'Main Tank Flow Meter': 'F1',
+                            'Untitled 1': 'DPV_1',
+                            'Untitled 2': 'DPV_2',
+                            'Untitled 3': 'DPV_3',
+                            'Untitled 4': 'DPV_4',
+                            'Untitled 5': 'DPV_5',
+                            'Sump Tank Flow Meter': 'F2',
+                            'End Pressure': 'P5_bar'})
+
+    numeric_columns = ['P3_bar', 'P4_bar', 'P5_bar']
+    df[numeric_columns] = df[numeric_columns].apply(pd.to_numeric, errors='coerce')
+
+    df['P4_bar'] += x
+    df['P3_bar'] += x
+    df['P5_bar'] += x
     return df
 
 HS_0 =  (pd.concat([(FC0['FC0_100']),(FC0['FC0_101'])]))[1:]
@@ -85,11 +107,11 @@ HS_1 =  (pd.concat([(FC1['FC1_100']),(FC1['FC1_101'])]))[1:]
 FC1_1 =replace_and_modify_columns((HS_0),1.0101) # Example use assuming x = 1.0101 and HS_0 is your Data 
 
 # Plot Histogram for various parameters
-S1 = (FC0_1['File_name'])
-S2 = (FC1_1['File_name'])
-S3 = (FC1_2['File_name'])
-S4 = (FC1_3['File_name'])
-num_bins = 20
+S1 = (FC0_1)
+S2 = (FC1_1)
+S3 = (FC2_1)
+S4 = (FC3_1)
+num_bins = 50
 plt.figure(figsize=(10, 6))
 sns.histplot(S1.P1_bar, kde=True, bins=num_bins, label='P1(bar)@Week 1', color='blue', alpha=0.7)
 sns.histplot(S2.P1_bar, kde=True, bins=num_bins, label='P1(bar)@Week 2', color='green', alpha=0.7)
