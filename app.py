@@ -108,6 +108,71 @@ HS_1 =  (pd.concat([(FC1['FC1_100']),(FC1['FC1_101'])]))[1:]
 
 FC1_1 =replace_and_modify_columns((HS_0),1.0101) # Example use assuming x = 1.0101 and HS_0 is your Data 
 
+# Plot Process Data and Variance
+QSS=FC1_1
+A = QSS.P1_bar
+B = QSS.P2_bar
+C = QSS.P3_bar
+D = QSS.P4_bar
+E = QSS.P5_bar
+F = QSS.F1
+
+fig, ax1 = plt.subplots()
+
+color = 'tab:red'
+ax1.set_xlabel('Number of Samples')
+ax1.set_ylabel('Pressure (bar)', color=color)
+ax1.plot(A, color='red', label='P1')
+ax1.plot(B, color='blue', label='P2')
+ax1.plot(C, color='green', label='P3')
+ax1.plot(D, color='orange', label='P4')
+ax1.plot(E, color='purple', label='P5')
+ax1.tick_params(axis='y', labelcolor=color)
+
+
+ax2 = ax1.twinx()
+color = 'tab:blue'
+ax2.set_ylabel('Flow (l/min)', color=color)
+ax2.plot(F, color='magenta', label='Flow(l/min)')
+ax2.tick_params(axis='y', labelcolor=color)
+
+lines1, labels1 = ax1.get_legend_handles_labels()
+lines2, labels2 = ax2.get_legend_handles_labels()
+lines = lines1 + lines2
+labels = labels1 + labels2
+ax1.legend(lines, labels)
+
+fig.tight_layout()
+plt.title('Graph of Pressure Signature Vs Flow')
+plt.show()
+
+Sdata = {
+    'P1_bar': A,
+    'P2_bar': B,
+    'P3_bar': C,
+    'P4_bar': D,
+    'P5_bar': E,
+    'F1_lpermin': F
+}
+
+
+Sest = pd.DataFrame(Sdata)
+
+column_variances = {}
+for column in Sest.columns:
+    column_variances[column] = Sest[column].var()
+
+max_variance_column = max(column_variances, key=column_variances.get)
+
+print("Parameter with the highest variance:", max_variance_column)
+
+plt.bar(column_variances.keys(), column_variances.values())
+plt.xlabel("System Variables")
+plt.ylabel("Variance")
+plt.title("Variances in System Parameters for FC25_700")
+plt.xticks(rotation=90)
+plt.show()
+
 # Plot Histogram for various parameters
 S1 = (FC0_1)
 S2 = (FC1_1)
