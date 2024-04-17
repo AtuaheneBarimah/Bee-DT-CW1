@@ -125,18 +125,30 @@ plt.grid(True)
 plt.show()
 
 
-# Create Spider Diagrams
-Algo_data = {
-    'Component': ['Filter', 'Pump', 'Valve', 'Nozzle', 'Pipe'],
-    'SPC_Model': [results_df.SPC_Model_Performance[0], results_df.SPC_Model_Performance[1], results_df.SPC_Model_Performance[2], results_df.SPC_Model_Performance[3], results_df.SPC_Model_Performance[4]],
-    'Ensemble_Classifiers': [best_accuracy_1, best_accuracy_2, best_accuracy_3, best_accuracy_4, best_accuracy_5],
-    'Neural_Network_Model': [DL_best_accuracy_1, DL_best_accuracy_2, DL_best_accuracy_3, DL_best_accuracy_4, DL_best_accuracy_5],
-    'Approximation_Model': [AENS_HDT_Per_1, AENS_HDT_Per_2, AENS_HDT_Per_3, AENS_HDT_Per_4, AENS_HDT_Per_5],
-    'PINN_Model': [HDT_PINN_1, HDT_PINN_2, HDT_PINN_3, HDT_PINN_4, HDT_PINN_5],
-    'Ensemble_HDT_Model': [ENS_HDT_Per_1, ENS_HDT_Per_2, ENS_HDT_Per_3, ENS_HDT_Per_4, ENS_HDT_Per_5]
-}
-Algo_data_df = pd.DataFrame(Algo_data)
-Algo_data_df
+def Mean_Check(H,FM1,FM2):
+  P1_1 = ((abs(((H.mean()).P1_bar)-((FM1.mean()).P1_bar)))/((H.mean()).P1_bar))*100
+  P2_1 = ((abs(((H.mean()).P2_bar)-((FM1.mean()).P2_bar)))/((H.mean()).P2_bar))*100
+  P3_1 = ((abs(((H.mean()).P3_bar)-((FM1.mean()).P3_bar)))/((H.mean()).P3_bar))*100
+  P4_1 = ((abs(((H.mean()).P4_bar)-((FM1.mean()).P4_bar)))/((H.mean()).P4_bar))*100
+  P5_1 = ((abs(((H.mean()).P5_bar)-((FM1.mean()).P5_bar)))/((H.mean()).P5_bar))*100
+  F1_1 = ((abs(((H.mean()).F1)-((FM1.mean()).F1)))/((H.mean()).F1))*100
+
+  P1_2 = ((abs(((H.mean()).P1_bar)-((FM2.mean()).P1_bar)))/((H.mean()).P1_bar))*100
+  P2_2 = ((abs(((H.mean()).P2_bar)-((FM2.mean()).P2_bar)))/((H.mean()).P2_bar))*100
+  P3_2 = ((abs(((H.mean()).P3_bar)-((FM2.mean()).P3_bar)))/((H.mean()).P3_bar))*100
+  P4_2 = ((abs(((H.mean()).P4_bar)-((FM2.mean()).P4_bar)))/((H.mean()).P4_bar))*100
+  P5_2 = ((abs(((H.mean()).P5_bar)-((FM2.mean()).P5_bar)))/((H.mean()).P5_bar))*100
+  F1_2 = ((abs(((H.mean()).F1)-((FM2.mean()).F1)))/((H.mean()).F1))*100
+
+  Algo_data = {
+    'Variable': ['P1_bar', 'P2_bar', 'P3_bar', 'P4_bar', 'P5_bar','F1'],
+    'FM1': [P1_1, P2_1, P3_1, P4_1, P5_1,F1_1],
+    'FM2': [P1_2, P2_2, P3_2, P4_2, P5_2,F1_2]
+  }
+  Algo_data_df = pd.DataFrame(Algo_data)
+  Algo_data_df
+
+  return Algo_data_df
 
 radar_chart =pygal.Radar(width = 350, height = 250)
 radar_chart.title = 'Compare Performance of FDI Model in MCD scenarios'
