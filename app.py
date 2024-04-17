@@ -1,8 +1,10 @@
 # Import Python Lib. You can add if required
 !pip install --upgrade keras scikit-learn
 !pip install cairosvg
+!pip install pygal
 import cairosvg
 import os
+import pygal
 from pathlib import Path
 import numpy as np
 import pandas as pd
